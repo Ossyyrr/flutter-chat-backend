@@ -1,6 +1,6 @@
 const { comprobarJWT } = require('../helpers/jwt');
 const { io } = require('../index');
-const { usuarioConectado, usuarioDesconectado } = require('../controllers/sockets')
+const { usuarioConectado, usuarioDesconectado, grabarMensaje } = require('../controllers/sockets')
 
 // Mensajes de Sockets
 io.on('connection', client => {
@@ -21,8 +21,10 @@ io.on('connection', client => {
     client.join(uid);
 
     // Escuchar del cliente el 'mensaje-personal'
-    client.on('mensaje-personal', (payload) => {
+    client.on('mensaje-personal', async (payload) => {
         console.log(payload);
+        await grabarMensaje(payload);
+
         // Mando el mensaje al canal con el id de la persona a la que va dirigido:
         // Emito el 'mensaje-personal' y mando de regreso el payload
         io.to(payload.para).emit('mensaje-personal', payload);

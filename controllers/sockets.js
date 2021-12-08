@@ -1,6 +1,6 @@
 
 const Usuario = require('../models/usuario');
-
+const Mensaje = require('../models/mensaje');
 const usuarioConectado = async (uid = '') => {
     const usuario = await Usuario.findById(uid);
     usuario.online = true;
@@ -17,8 +17,27 @@ const usuarioDesconectado = async (uid = '') => {
 
 }
 
+const grabarMensaje = async (payload) => {
+
+    /*
+    {
+        de: '',
+        para: '',
+        texto: '',
+    }
+    */
+
+
+    try {
+        const mensaje = Mensaje(payload);
+        await mensaje.save();
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
 
 
 module.exports = {
-    usuarioConectado, usuarioDesconectado
+    usuarioConectado, usuarioDesconectado, grabarMensaje
 }
