@@ -16,15 +16,16 @@ io.on('connection', client => {
     usuarioConectado(uid)
 
     // Ingresar al usuario a una sala específica
-    // Sala global, client.id,
 
     // unir a un usuario a una sala con el nombre del uid:
     client.join(uid);
 
     // Escuchar del cliente el 'mensaje-personal'
-
     client.on('mensaje-personal', (payload) => {
         console.log(payload);
+        // Mando el mensaje al canal con el id de la persona a la que va dirigido:
+        // Emito el 'mensaje-personal' y mando de regreso el payload
+        io.to(payload.para).emit('mensaje-personal', payload);
     })
 
 
