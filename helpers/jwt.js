@@ -22,6 +22,19 @@ const generarJWT = (uid) => {
 
 };
 
+const comprobarJWT = (token = '') => {
+    try {
+        //Verifica el token con respecto al JWT_KEY, trato de extraer el uid del token, si no lo extrae es porque no tengo un token válido.
+        const { uid } = jwt.verify(token, process.env.JWT_KEY);
+        //Agrego a la request el uid extraido para poder mandarlo luego en la response
+
+        return [true, uid];
+
+    } catch (error) {
+        return [false, null];
+    }
+}
+
 module.exports = {
-    generarJWT
+    generarJWT, comprobarJWT
 }
