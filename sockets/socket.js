@@ -15,6 +15,17 @@ io.on('connection', client => {
     console.log('cliente autenticado');
     usuarioConectado(uid)
 
+    // Ingresar al usuario a una sala específica
+    // Sala global, client.id,
+
+    // unir a un usuario a una sala con el nombre del uid:
+    client.join(uid);
+
+    // Escuchar del cliente el 'mensaje-personal'
+
+    client.on('mensaje-personal', (payload) => {
+        console.log(payload);
+    })
 
 
     client.on('disconnect', () => {
